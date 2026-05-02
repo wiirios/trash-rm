@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "core.h"
 #include <string.h>
+#include "core.h"
 
 #ifdef __linux__
 #include <sys/stat.h>
@@ -14,14 +14,11 @@
 #define GetCurrentDir getcwd
 #endif
 
-#define PATH_BIN "files-exit/"
-#define PATH_LIST "/exit/list.txt"
-#define BIN_NAME "TRASH"
-
 #ifndef DEBUG
 #define DEBUG 1
 #define MAX_BUFFER_SIZE_DEBUG 255
 #define MAX_FILE_NAME 255
+#define MAX_BIN_PATH_NAME 8192 
 
 #if defined(DEBUG)
     void move_debug(const char *file_name, unsigned char flag);

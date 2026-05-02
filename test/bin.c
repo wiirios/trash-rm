@@ -6,11 +6,8 @@ void move_debug(const char *file_name, unsigned char flag) {
     GetCurrentDir(buff, FILENAME_MAX);
 
     DIR *current_dir = opendir(buff);
-    // struct dirent *d;
 
     if (check_if_file_exist(current_dir, file_name)) goto found;
-
-    // while ((d = readdir(current_dir)) != NULL) if (strcmp(d->d_name, file_name) == 0) goto found;
 
     closedir(current_dir);
     error("File not found");
@@ -22,7 +19,10 @@ void move_debug(const char *file_name, unsigned char flag) {
     char *BUFFER = malloc(size_file + 1);
     if (!BUFFER) error("Error allocating memory for Buffer");
 
-    DIR *dir = opendir(PATH_BIN);
+    char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
+
+    DIR *dir = opendir(BUFFER_PATH);
     if (!dir) {
         closedir(dir);
         error("Cannot access the bin folder");
@@ -41,14 +41,15 @@ void move_debug(const char *file_name, unsigned char flag) {
         if (q == 'N' || q == 'n') error("The file was not overwritten");
     }
 
-    snprintf(BUFFER, size_file, "%s%s", PATH_BIN, file_name);
+    snprintf(BUFFER, size_file, "%s%s", BUFFER_PATH, file_name);
     if ((rename(file_name, BUFFER)) == 0) flag ? printf("File %s move succesfully\n", file_name) : printf("File move succesfully\n");
     else {
         error("Error moving file");
     }
     ;
-
-    FILE *list = fopen("../assets/list.txt", "a");
+    
+    strcat(BUFFER_PATH, "/trash/list.txt");
+    FILE *list = fopen(BUFFER_PATH, "a");
     if (!list) {
         fclose(list);
         error("It was not possible to open list.txt");
@@ -136,8 +137,11 @@ void clean() {
     int result = list_debug();
 
     if (!result) return;
-
-    DIR *dir = opendir(PATH_BIN);
+    
+    char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
+    
+    DIR *dir = opendir(BUFFER_PATH);
     struct dirent *d;
     char q;
 
@@ -151,15 +155,20 @@ void clean() {
     if (q == 'N' || q == 'n') error("The bin can was not emptied.");
 
     while ((d = readdir(dir)) != NULL) if (d->d_type == 8) {
-        char file_path[1024];
-        snprintf(file_path, sizeof(file_path), "%s%s", PATH_BIN, d->d_name);
+        char file_path[MAX_BIN_PATH_NAME];
+        int written = snprintf(file_path, sizeof(file_path), "%s%s", BUFFER_PATH, d->d_name);
+        
+        if (written < 0 || (size_t)written >= sizeof(file_path)) error("Path too long");
 
         remove(file_path);
     }
 }
 
 void remove_by_name_debug(const char *file_name) {
-    DIR *dir = opendir(PATH_BIN);
+    char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
+    
+    DIR *dir = opendir(BUFFER_PATH);
     
     if (!dir) {
         closedir(dir);
@@ -167,8 +176,8 @@ void remove_by_name_debug(const char *file_name) {
     } 
 
     if (check_if_file_exist(dir, file_name)) {
-        char file_path[MAX_FILE_NAME];
-        snprintf(file_path, sizeof(file_path), "%s%s", PATH_BIN, file_name); 
+        char file_path[MAX_BIN_PATH_NAME];
+        snprintf(file_path, sizeof(file_path), "%s%s", BUFFER_PATH, file_name); 
             
         remove(file_path);
     } else {
@@ -181,7 +190,10 @@ void remove_by_name_debug(const char *file_name) {
 }
 
 void recover_debug(const char *file_name) {
-    DIR *dir = opendir(PATH_BIN);
+    char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
+    
+    DIR *dir = opendir(BUFFER_PATH);
     
     if (!dir) {
         closedir(dir);
