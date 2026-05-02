@@ -13,7 +13,12 @@ int main(int argc, char* argv[]) {
     // move_file_match_pattern(argv[1], argv[2]);
 
     if (argc < 2) error("Insufficient arguments");
+    
+    char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
 
+    create_bin(BUFFER_PATH);
+    
     if (strcmp(argv[1], "move") == 0 && argv[2] != NULL) move_debug(argv[2], 0);
     else if (strcmp(argv[1], "list") == 0) list_debug();
     else if (strcmp(argv[1], "match-move") == 0) move_file_match_pattern(argv[1]);
