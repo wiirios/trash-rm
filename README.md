@@ -11,7 +11,7 @@ The goal of `trash-rm` is not to replace the original project. Instead, it was c
 ## Installation
 ```
 # Clone
-git clone https://github.com/your-username/trash-rm.git
+git clone https://github.com/wiirios/trash-rm.git
 cd trash-rm
 
 # Install
@@ -63,6 +63,7 @@ Planned improvements and missing features:
 - [ ] Add configuration options.
 - [ ] Add better logging.
 - [ ] Implement all planned functions. (See bin.h in test/bin.h)
+- [ ] Replace repetitive code with shared utility functions
 
 ## Project status
 
