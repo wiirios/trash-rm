@@ -22,6 +22,10 @@ void move_debug(const char *file_name, unsigned char flag) {
     char BUFFER_PATH[MAX_BIN_PATH_NAME];
     get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
 
+    size_t buffer_l = strlen(BUFFER_PATH);
+
+    strcat(BUFFER_PATH, "trash/");
+    
     DIR *dir = opendir(BUFFER_PATH);
     if (!dir) {
         closedir(dir);
@@ -48,12 +52,10 @@ void move_debug(const char *file_name, unsigned char flag) {
     }
     ;
     
-    strcat(BUFFER_PATH, "/trash/list.txt");
+    BUFFER_PATH[buffer_l] = '\0';
+    strcat(BUFFER_PATH, "list.txt");
     FILE *list = fopen(BUFFER_PATH, "a");
-    if (!list) {
-        fclose(list);
-        error("It was not possible to open list.txt");
-    }
+    if (!list) error("It was not possible to open list.txt");
 
     fprintf(list, "%s | %s | %s\n", "TIME", file_name, buff);
 

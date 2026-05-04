@@ -17,19 +17,23 @@ int main(int argc, char* argv[]) {
     char BUFFER_PATH[MAX_BIN_PATH_NAME];
     get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
 
+    size_t buffer_l = strlen(BUFFER_PATH);
+
     create_bin(BUFFER_PATH);
+    DIR *dir = opendir(BUFFER_PATH);
+    if (!check_if_file_exist(dir, "list.txt")) {
+        strcat(BUFFER_PATH, "/list.txt");
+        FILE *f_ = fopen(BUFFER_PATH, "w");
+        
+        if (!f_) error("Cannot create list.txt");
+        
+        fclose(f_);
+    }
+    closedir(dir);
+
+    BUFFER_PATH[buffer_l] = '\0';
     strcat(BUFFER_PATH, "/trash");
     create_bin(BUFFER_PATH);
-    strcat(BUFFER_PATH, "/list.txt");
-
-    FILE *f_ = fopen(BUFFER_PATH, "w");
-    
-    if (!f_) {
-        fclose(f_);
-        error("Cannot create list.txt");
-    }
-
-    fclose(f_);
 
     if (strcmp(argv[1], "move") == 0 && argv[2] != NULL) move_debug(argv[2], 0);
     else if (strcmp(argv[1], "list") == 0) list_debug();
