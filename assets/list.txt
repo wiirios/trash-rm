@@ -1,3 +1,0 @@
-TIME | test.txt | /home/recup/personal/projects/trash-rm/test
-TIME | test1.txt | /home/recup/personal/projects/trash-rm/test
-TIME | test2.txt | /home/recup/personal/projects/trash-rm/test
