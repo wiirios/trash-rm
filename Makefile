@@ -1,24 +1,21 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
-TARGET = trash-rm
-SRC = src/main.c bin.c timestamp.c core.c
+TARGET = /tmp/trash-rm
+SRC = src/main.c src/bin.c src/timestamp.c src/core.c
 
 INSTALL_PATH = /usr/local/bin
-BIN_DIR = /usr/local/share/trash-rm/bin
 
 all:
 	$(CC) $(CFLAGS) $(SRC) -o $(TARGET)
 
 install: all
 	install -d $(INSTALL_PATH)
-	install -d $(BIN_DIR)
-	install -m 755 $(TARGET) $(INSTALL_PATH)
-	@@echo "trash-rm installed!"
-	@@echo "Trash folder: $(BIN_DIR)"
+	install -m 755 $(TARGET) $(INSTALL_PATH)/trash-rm
+
+	@echo "trash-rm installed!"
 
 uninstall:
-	rm -f $(INSTALL_PATH)/$(TARGET)
-	rm -rf /usr/local/share/trash-rm
+	rm -f $(INSTALL_PATH)/trash-rm
 
 clean:
 	rm -f $(TARGET)
