@@ -17,18 +17,16 @@
 #define GetCurrentDir getcwd
 #endif
 
-#define PATH_BIN "/usr/local/share/trash-rm/bin/"
-#define PATH_LIST "/exit/list.txt"
-
-#define MAX_BUFFER_SIZE 1024
+#define MAX_PATH_SIZE 4096
 #define MAX_FILE_NAME 1024
+#define MAX_BUFFER_SIZE 1024
 
-void move(const char *file_name, unsigned char flag);
+void move(const char *dest, const char *src, const char *file_name, unsigned char flag);
 void move_file_match_pattern(const char *pattern);
 void clean();
 
 int list();
-int check_if_file_exist(struct dirent *d, DIR *dir, const char *file_name);
+int check_if_file_exist(DIR *dir, const char *file_name);
 int get_size(const char *file_name, size_t *out_size);
 
 
