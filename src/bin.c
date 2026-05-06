@@ -108,10 +108,9 @@ void move_file_match_pattern(const char *pattern) {
         error("There's no file to remove");
     }
     rewinddir(current_dir);
-    printf("pattern: %s\n", pattern);
     while ((d = readdir(current_dir)) != NULL) {
         status = regexec(&regex, d->d_name, 0, NULL, 0); 
-        printf("%s\n", d->d_name);
+        
         if (!status && d->d_type == 8) {
             if (!called) called += 1;
             move(TRASH_RM_FOLDER, USER_PATH, d->d_name, 1);
