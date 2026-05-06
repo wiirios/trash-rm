@@ -34,7 +34,11 @@ int main(int argc, char* argv[]) {
     char USER_PATH[MAX_PATH_SIZE];
     GetCurrentDir(USER_PATH, MAX_PATH_SIZE);
 
-    if (strcmp(argv[1], "move") == 0 && argv[2] != NULL) move(TRASH_RM_FOLDER, USER_PATH, argv[2], 1);
+    if (strcmp(argv[1], "move") == 0 && argv[2] != NULL) {
+        if (strlen(argv[2]) > MAX_FILE_NAME) error("The file name is too long");
+        
+        move(TRASH_RM_FOLDER, USER_PATH, argv[2], 1);
+    }
     else if (strcmp(argv[1], "list") == 0) list();
     else if (strcmp(argv[1], "match-move") == 0) move_file_match_pattern(argv[2]);
     else if (strcmp(argv[1], "clean") == 0) clean();

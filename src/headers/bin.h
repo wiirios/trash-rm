@@ -18,7 +18,7 @@
 #endif
 
 #define MAX_PATH_SIZE 4096
-#define MAX_FILE_NAME 1024
+#define MAX_FILE_NAME 255
 #define MAX_BUFFER_SIZE 1024
 
 void move(const char *dest, const char *src, const char *file_name, unsigned char flag);
