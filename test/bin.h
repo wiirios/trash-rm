@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "core.h"
 
 #ifdef __linux__
@@ -21,7 +22,7 @@
 #define MAX_BIN_PATH_NAME 8192 
 
 #if defined(DEBUG)
-    void move_debug(const char *file_name, unsigned char flag);
+    void move_debug(const char *dest, const char *src, const char *file_name, unsigned char flag);
     void move_file_match_pattern(const char *pattern);
     void clean();
     void remove_by_name_debug(const char *file_name);
