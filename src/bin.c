@@ -184,3 +184,25 @@ int get_size(const char *file_name, size_t *out_size) {
 
     return 0;
 }
+
+void remove_by_name_from_bin(const char *file_name) {
+    char TRASH_FOLDER_ROOT[MAX_PATH_SIZE];
+    get_origin_path(TRASH_FOLDER_ROOT, sizeof(TRASH_FOLDER_ROOT));
+    strcat(TRASH_FOLDER_ROOT, "trash/");
+
+    DIR *dir = opendir(TRASH_FOLDER_ROOT);
+    
+    if (!dir) error("Cannot access the bin folder");
+    
+    if (check_if_file_exist(dir, file_name)) {
+        strcat(TRASH_FOLDER_ROOT, file_name);
+        
+        remove(TRASH_FOLDER_ROOT);
+    } else {
+        closedir(dir);
+        error("File not found");
+    }
+
+    printf("File %s removed succesfully\n", file_name);
+    closedir(dir);
+}

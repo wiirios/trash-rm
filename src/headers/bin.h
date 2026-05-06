@@ -24,10 +24,10 @@
 void move(const char *dest, const char *src, const char *file_name, unsigned char flag);
 void move_file_match_pattern(const char *pattern);
 void clean();
+void remove_by_name_from_bin(const char *file_name);
 
 int list();
 int check_if_file_exist(DIR *dir, const char *file_name);
 int get_size(const char *file_name, size_t *out_size);
-
 
 #endif
