@@ -47,11 +47,8 @@ trash-rm match-move *.txt
 
 The project is still evolving. Some known issues may include:
 
-- Error handling and edge case coverage are still incomplete
-- The project currently works reliably only when executed with `sudo`.
-- The files are losing their format.
-- Makefile is not creating the folder in the correct location.
-- It is not registering the files that were moved to the trash.
+- Error handling and edge case coverage are still incomplete.
+- The `recover` function is not working.
 
 ## TODO
 
