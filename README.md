@@ -67,6 +67,7 @@ Planned improvements and missing features:
 - [ ] Improve error handling.
 - [ ] Add better logging.
 - [ ] Replace repetitive code with shared utility functions
+- [ ] Create a function to recover all files from the Trash bin.
 
 ## Project status
 
