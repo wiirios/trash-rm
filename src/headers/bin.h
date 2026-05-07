@@ -25,6 +25,7 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
 void move_file_match_pattern(const char *pattern);
 void clean();
 void remove_by_name_from_bin(const char *file_name);
+void recover(const char *file_name);
 
 int list();
 int check_if_file_exist(DIR *dir, const char *file_name);

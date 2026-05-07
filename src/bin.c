@@ -4,7 +4,9 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
     DIR *dest_ = opendir(dest);
     DIR *src_ = opendir(src);
 
-    if (!dest_ || !src_) error("Cannot open dest folder or src folder");
+    if (!dest_) error("Cannot open dest folder");
+
+    if (!src_) error("Cannot open src folder");
 
     if (check_if_file_exist(src_, file_name)) goto found;
 
@@ -13,11 +15,17 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
     error("File not found");
 
     found:
-    size_t size_file;
-    if (get_size(file_name, &size_file) != 0) error("Cannot get file size");
+    char SRC_PATH[MAX_PATH_SIZE];
+    char DEST_PATH[MAX_PATH_SIZE];
+    
+    int written = snprintf(SRC_PATH, sizeof(SRC_PATH), "%s%s%s", src, src[strlen(src) - 1] == '/' ? "" : "/", file_name);
+    if (written < 0 || (size_t)written >= sizeof(SRC_PATH)) error("Path too long");
 
-    char *BUFFER = malloc(size_file + 1);
-    if (!BUFFER) error("Error allocating memory for Buffer");
+    written = snprintf(DEST_PATH, sizeof(DEST_PATH), "%s%s%s", dest, dest[strlen(dest) - 1] == '/' ? "" : "/", file_name);
+    if (written < 0 || (size_t)written >= sizeof(DEST_PATH)) error("Path too long");
+
+    size_t size_file;
+    if (get_size(SRC_PATH, &size_file) != 0) error("Cannot get file size");
 
     char q;
     if (check_if_file_exist(dest_, file_name) == 1) {
@@ -31,8 +39,7 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
         if (q == 'N' || q == 'n') error("The file was not overwritten");
     }
 
-    snprintf(BUFFER, size_file, "%s%s", dest, file_name);
-    if ((rename(file_name, BUFFER)) == 0) printf("File %s move succesfully\n", file_name);
+    if ((rename(SRC_PATH, DEST_PATH)) == 0) printf("File %s move succesfully\n", file_name);
     else {
         error("Error moving file");
     }
@@ -58,7 +65,6 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
 
     closedir(dest_);
     closedir(src_);
-    free(BUFFER);
 }
 
 int list() {
@@ -205,4 +211,88 @@ void remove_by_name_from_bin(const char *file_name) {
 
     printf("File %s removed succesfully\n", file_name);
     closedir(dir);
+}
+
+
+void recover(const char *file_name) {
+    char TRASH_FOLDER[MAX_PATH_SIZE];
+    get_origin_path(TRASH_FOLDER, sizeof(TRASH_FOLDER));
+    
+    size_t buffer_l = strlen(TRASH_FOLDER);
+    strcat(TRASH_FOLDER, "trash/");
+
+    DIR *dir = opendir(TRASH_FOLDER);
+    
+    if (!dir) {
+        closedir(dir);
+        error("Cannot access the bin folder");
+    }
+
+    if (check_if_file_exist(dir, file_name)) {
+        TRASH_FOLDER[buffer_l] = '\0';   
+        strcat(TRASH_FOLDER, "list.txt");
+
+        FILE *list = fopen(TRASH_FOLDER, "r");
+        if (!list) error("It was not possible to open list.txt");
+
+        int c, i, j, jump, can_get_path, pos;
+        jump = i = j = can_get_path = pos = 0;
+
+        char BUFFER_PATH[MAX_PATH_SIZE];
+        char BUFFER_NAME[MAX_FILE_NAME];
+
+        while ((c = fgetc(list)) != EOF) {
+            if (c == '|') jump++;
+       
+            if (jump == 1 && c != '|' && c != ' ') {
+                BUFFER_NAME[i++] = c;
+                BUFFER_NAME[i] = '\0';
+            }
+
+            if (jump == 2 && !can_get_path) {
+                if (strcmp(BUFFER_NAME, file_name) == 0) {
+                    can_get_path = 1;
+                    BUFFER_NAME[i] = '\0';
+                }
+            }
+
+            if (can_get_path) {
+                if (c != '|' && c != ' ') {
+                    BUFFER_PATH[j] = c;
+                    j++;
+                }
+            }
+
+            if (can_get_path && c == '\n') {
+                BUFFER_PATH[j] = '\0';
+                break;
+            };
+
+            if (c == '\n') {
+                i = j = jump = 0;
+                memset(BUFFER_NAME, 0 , sizeof(BUFFER_NAME));
+            }
+        }
+        char *ptr = &BUFFER_PATH[0];
+
+        // remove break line
+        while (*ptr != '\n') {
+            ptr++;
+            pos++;
+        }
+
+        BUFFER_PATH[pos] = '\0';
+
+        char BIN_PATH[MAX_PATH_SIZE];
+        get_origin_path(BIN_PATH, sizeof(BIN_PATH));
+        strcat(BIN_PATH, "trash/");
+
+        move(BUFFER_PATH, BIN_PATH, file_name, 0);
+        closedir(dir);
+        fclose(list);
+    } else {
+        closedir(dir);
+        error("File not found");
+    }
+
 }
