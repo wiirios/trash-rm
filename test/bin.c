@@ -11,16 +11,17 @@ void move_debug(const char *dest, const char *src, const char *file_name, unsign
     error("File not found");
 
     found:
+    char src_path[MAX_BIN_PATH_NAME];
+    char dest_path[MAX_BIN_PATH_NAME];
+
+    int written = snprintf(src_path, sizeof(src_path), "%s%s%s", src, src[strlen(src) - 1] == '/' ? "" : "/", file_name);
+    if (written < 0 || (size_t)written >= sizeof(src_path)) error("Path too long");
+
+    written = snprintf(dest_path, sizeof(dest_path), "%s%s%s", dest, dest[strlen(dest) - 1] == '/' ? "" : "/", file_name);
+    if (written < 0 || (size_t)written >= sizeof(dest_path)) error("Path too long");
+
     size_t size_file;
-    if (get_size(file_name, &size_file) != 0) error("Cannot get file size");
-
-    char *BUFFER = malloc(size_file + 1);
-    if (!BUFFER) error("Error allocating memory for Buffer");
-
-    if (!dest_) {
-        closedir(dest_);
-        error("Cannot access the dest folder");
-    }
+    if (get_size(src_path, &size_file) != 0) error("Cannot get file size");
 
     rewinddir(dest_);
     char q;
@@ -35,8 +36,7 @@ void move_debug(const char *dest, const char *src, const char *file_name, unsign
         if (q == 'N' || q == 'n') error("The file was not overwritten");
     }
     
-    snprintf(BUFFER, size_file, "%s%s", dest, file_name); 
-    if ((rename(file_name, BUFFER)) == 0) printf("File %s move succesfully\n", file_name);
+    if ((rename(src_path, dest_path)) == 0) printf("File %s move succesfully\n", file_name);
     else {
         error("Error moving file");
     }
@@ -53,7 +53,6 @@ void move_debug(const char *dest, const char *src, const char *file_name, unsign
         if (!list) {
             closedir(src_);
             closedir(dest_);
-            free(BUFFER);
             error("It was not possible to open list.txt");
         }
         
@@ -63,7 +62,6 @@ void move_debug(const char *dest, const char *src, const char *file_name, unsign
 
     closedir(src_);
     closedir(dest_);
-    free(BUFFER);
 }
 
 int list_debug() {
@@ -230,8 +228,8 @@ void recover_debug(const char *file_name) {
         int c, i, j, jump, can_get_path, pos;
         jump = i = j = can_get_path = pos = 0;
 
-        char BUFFER_PATH[1024];
-        char BUFFER_NAME[1024];
+        char BUFFER_PATH[MAX_BIN_PATH_NAME];
+        char BUFFER_NAME[MAX_FILE_NAME];
 
         while ((c = fgetc(list)) != EOF) {
             if (c == '|') jump++;
