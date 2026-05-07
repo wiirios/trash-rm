@@ -61,6 +61,8 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
 
         fprintf(list_, "%s | %s | %s\n", get_date(&today), file_name, src);
         fclose(list_);
+    } else {
+        remove_log_entry(file_name);
     }
 
     closedir(dest_);
@@ -210,9 +212,54 @@ void remove_by_name_from_bin(const char *file_name) {
     }
 
     printf("File %s removed succesfully\n", file_name);
+    remove_log_entry(file_name);
     closedir(dir);
 }
 
+void remove_log_entry(const char *file_name) {
+    char LIST_PATH[MAX_PATH_SIZE];
+    get_bin_path(LIST_PATH, sizeof(LIST_PATH));
+    strcat(LIST_PATH, "list.txt");
+
+    FILE *list = fopen(LIST_PATH, "r");
+
+    if (!list) error("Cannot open list.txt");
+
+    char TEMP_PATH[MAX_PATH_SIZE];
+    strcpy(TEMP_PATH, LIST_PATH);
+    strcat(TEMP_PATH, ".tmp");
+
+    FILE *temp = fopen(TEMP_PATH, "w");
+    if (!temp) {
+        fclose(list);
+        error("Cannot create temp file");
+    }
+
+    char line[MAX_BUFFER_SIZE];
+    while (fgets(line, sizeof(line), list)) {
+        char name[MAX_FILE_NAME];
+        int i = 0, j = 0, jump = 0;
+
+        for (; line[i]; i++) {
+            if (line[i] == '|') jump++;
+            else if (jump == 1 && line[i] != ' ') {
+                name[j++] = line[i];
+            }
+        }
+
+        name[j] = '\0';
+        if (strcmp(name, file_name) != 0) {
+            fputs(line, temp);
+        }
+    }
+
+    fclose(list);
+    fclose(temp);
+
+    if (rename(TEMP_PATH, LIST_PATH) != 0) {
+        error("Cannot replace list.txt");
+    }
+}
 
 void recover(const char *file_name) {
     char TRASH_FOLDER[MAX_PATH_SIZE];

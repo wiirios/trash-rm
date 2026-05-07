@@ -62,6 +62,13 @@ void remove_by_name_from_bin(const char *file_name);
 void recover(const char *file_name);
 
 /**
+ * @brief Remove the log entry for a file from list.txt.
+ *
+ * @param file_name Name of the file whose log entry to remove.
+ */
+void remove_log_entry(const char *file_name);
+
+/**
  * @brief Show all items in trash bin.
  *
  * @return 1 if successful
