@@ -30,8 +30,6 @@
  * @param flag If 1, write an entry to list.txt for this trashed file. If 0,
  *        the move is being done during recovery, so do not add it to list.txt
  *        because the file is leaving the trash.
- * @note This flag behavior still needs to be fully implemented in the move()
- *       function.
  */
 void move(const char *dest, const char *src, const char *file_name, unsigned char flag);
 
