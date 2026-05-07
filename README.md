@@ -43,24 +43,13 @@ Move all files ending with .txt
 trash-rm match-move *.txt
 ```
 
-## Known issues
-
-The project is still evolving. Some known issues may include:
-
-- Error handling and edge case coverage are still incomplete.
-- The `recover` function is not working.
-
 ## TODO
 
 Planned improvements and missing features:
 
 - [ ] Make it cross-platform with Windows.
-- [ ] Fix all known issues.
 - [ ] Improve error handling.
-- [ ] Improve documentation.
-- [ ] Add configuration options.
 - [ ] Add better logging.
-- [ ] Implement all planned functions. (See bin.h in test/bin.h)
 - [ ] Replace repetitive code with shared utility functions
 
 ## Project status
