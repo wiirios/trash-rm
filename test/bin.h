@@ -26,6 +26,7 @@
     void move_file_match_pattern(const char *pattern);
     void clean();
     void remove_by_name_debug(const char *file_name);
+    void remove_log_entry_debug(const char *file_name);
     int list_debug();
     void recover_debug(const char *file_name);
 #else
