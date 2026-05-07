@@ -1,6 +1,6 @@
 # trash-rm
 
-`trash-rm` is a cli tool that moves files and directories to the system trash instead of deleting them permanently.
+`trash-rm` is a cli tool that creates its own trash directory and moves files and directories there instead of deleting them permanently.
 
 ## Inspiration
 
