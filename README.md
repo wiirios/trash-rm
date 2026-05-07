@@ -22,11 +22,15 @@ sudo make uninstall
 ```
 ## Usage
 
+Below are all the available commands.
+
 ```
 trash-rm move           trash the file.
 trash-rm list           lists the files in the trash.
 trash-rm match-move     move a file with a pattern.
 trash-rm clean          empty the trash.
+trash-rm remove         remove a file from the trash.
+trash-rm recover        recovers a file from the trash.
 ```
 
 ## Examples
@@ -41,6 +45,18 @@ Move all files ending with .txt
 
 ```bash
 trash-rm match-move *.txt
+```
+
+Removes a specific file from the trash.
+
+```bash
+trash-rm remove min.c
+```
+
+Recover a file from the trash.
+
+```bash
+trash-rm recover bump.mp4
 ```
 
 ## TODO
