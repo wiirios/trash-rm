@@ -41,7 +41,10 @@ int main(int argc, char* argv[]) {
     else if (strcmp(argv[1], "clean") == 0) clean();
     else if (strcmp(argv[1], "remove") == 0 && argv[2] != NULL) remove_by_name_debug(argv[2]);
     else if (strcmp(argv[1], "recover") == 0 && argv[2] != NULL) recover_debug(argv[2]);
-    else error("Invalid argv, see available argv:\nmove: Move a specific file by name: trash-rm move [file_name]\nlist: lists all files in the trash: trash-rm list.\nmatch-move: move all files that match a pattern: trash-rm match-move [pattern]");
+    else error("Invalid argv, see available argv:\n"
+        "move: Move a specific file by name: trash-rm move [file_name]\n"
+        "list: lists all files in the trash: trash-rm list.\n"
+        "match-move: move all files that match a pattern: trash-rm match-move [pattern]");
 
     return 0;
 }
