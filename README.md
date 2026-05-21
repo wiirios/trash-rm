@@ -68,7 +68,8 @@ trash-rm recover bump.mp4
 To change the timestamp format, you need to modify the `TIMESTAMP_FORMAT` constant in the [include/timestamp.h](include/timestamp.h) file:
 
 ```c
-#define TIMESTAMP_FORMAT "DDMMYYYY" // You can use any combination involving the day, month, and year.
+// You can use any combination involving the day, month, and year.
+#define TIMESTAMP_FORMAT "DDMMYYYY"
 ```
 
 After changing the format, recompile the project:
