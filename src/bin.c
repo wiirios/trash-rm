@@ -218,7 +218,7 @@ void remove_by_name_from_bin(const char *file_name) {
 
 void remove_log_entry(const char *file_name) {
     char LIST_PATH[MAX_PATH_SIZE];
-    get_bin_path(LIST_PATH, sizeof(LIST_PATH));
+    get_origin_path(LIST_PATH, sizeof(LIST_PATH));
     strcat(LIST_PATH, "list.txt");
 
     FILE *list = fopen(LIST_PATH, "r");
