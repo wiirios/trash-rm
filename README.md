@@ -74,8 +74,7 @@ To change the timestamp format, you need to modify the `TIMESTAMP_FORMAT` consta
 
 After changing the format, recompile the project:
 ```bash
-make clean
-make
+sudo make uninstall 
 sudo make install
 ```
 
