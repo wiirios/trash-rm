@@ -59,6 +59,25 @@ Recover a file from the trash.
 trash-rm recover bump.mp4
 ```
 
+## Timestamp
+
+`trash-rm` uses timestamps to track when files were moved to the trash. Each file in the trash receives a timestamp that is appended to its name.
+
+### Customizing the format
+
+To change the timestamp format, you need to modify the `TIMESTAMP_FORMAT` constant in the [include/timestamp.h](include/timestamp.h) file:
+
+```c
+#define TIMESTAMP_FORMAT "DDMMYYYY" // You can use any combination involving the day, month, and year.
+```
+
+After changing the format, recompile the project:
+```bash
+make clean
+make
+sudo make install
+```
+
 ## TODO
 
 Planned improvements and missing features:

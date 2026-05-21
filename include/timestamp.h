@@ -11,6 +11,14 @@
 
 #define MAX_FORMAT_LENGTH 9
 #define TIMESTAMP_LENGTH 20
+
+/*
+ * The base format is defined as a sequence of day, month, and year.
+ * It accepts any order of D, M, and Y in the format string, for example:
+ * "DDMMYYYY", "MMDDYYYY", "YYYYMMDD", and other combinations with day, month, and year.
+ * This definition indicates how the timestamp generated in bin.c will be interpreted
+ * and formatted by the timestamp functions.
+ */
 #define TIMESTAMP_FORMAT "DDMMYYYY"
 
 /**
