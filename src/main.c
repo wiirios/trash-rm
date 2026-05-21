@@ -1,6 +1,4 @@
-#include <stdio.h>
-
-#include "headers/bin.h"
+#include "../include/bin.h"
 
 int main(int argc, char* argv[]) {    
     if (argc < 2) error("Insufficient arguments");

@@ -1,4 +1,4 @@
-#include "headers/bin.h"
+#include "../include/bin.h"
 
 void move(const char *dest, const char *src, const char *file_name, unsigned char flag) {
     DIR *dest_ = opendir(dest);
