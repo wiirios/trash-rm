@@ -1,6 +1,8 @@
 #include "bin.h"
 
-#include <stdio.h>
+#ifdef __linux__
+#include <getopt.h>
+#endif
 
 #define DEBUG 1
 
@@ -35,16 +37,47 @@ int main(int argc, char* argv[]) {
     char USER_PATH[MAX_FILE_NAME];
     GetCurrentDir(USER_PATH, FILENAME_MAX);
 
-    if (strcmp(argv[1], "move") == 0 && argv[2] != NULL) move_debug(BIN_PATH, USER_PATH, argv[2], 1);
-    else if (strcmp(argv[1], "list") == 0) list_debug();
-    else if (strcmp(argv[1], "match-move") == 0) move_file_match_pattern(argv[1]);
-    else if (strcmp(argv[1], "clean") == 0) clean();
-    else if (strcmp(argv[1], "remove") == 0 && argv[2] != NULL) remove_by_name_debug(argv[2]);
-    else if (strcmp(argv[1], "recover") == 0 && argv[2] != NULL) recover_debug(argv[2]);
-    else error("Invalid argv, see available argv:\n"
+    static struct option long_options[] = {
+        {"move", required_argument, 0, 'm'},
+        {"list", no_argument, 0, 'l'},
+        {"match", required_argument, 0, 'e'},
+        {"clean", no_argument, 0, 'c'},
+        {"remove", required_argument, 0, 'd'},
+        {"recover", required_argument, 0, 'r'},
+        {0, 0, 0, 0}
+    };
+
+    int opt, long_ind;
+    opt = long_ind = 0;
+
+    opt = getopt_long(argc, argv, "m:le:cd:r:", long_options, &long_ind);
+
+    switch (opt)
+    {
+    case 'm':
+        move_debug(BIN_PATH, USER_PATH, optarg, 1);
+        break;
+    case 'l':
+        list_debug();
+        break;
+    case 'e':
+        move_file_match_pattern(optarg);
+        break;
+    case 'c':
+        clean();
+        break;
+    case 'd':
+        remove_by_name_debug(optarg);
+        break;
+    case 'r':
+        recover_debug(optarg);
+        break;
+    default:
+    error("Invalid argv, see available argv:\n"
         "move: Move a specific file by name: trash-rm move [file_name]\n"
         "list: lists all files in the trash: trash-rm list.\n"
         "match-move: move all files that match a pattern: trash-rm match-move [pattern]");
+    }
 
     return 0;
 }
