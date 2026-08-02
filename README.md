@@ -10,14 +10,11 @@ The goal of `trash-rm` is not to replace the original project. Instead, it was c
 
 ## Installation
 ```
-# Clone
 git clone https://github.com/wiirios/trash-rm.git
 cd trash-rm
 
-# Install
 sudo make install
 
-# Uninstall
 sudo make uninstall
 ```
 ## Usage
@@ -74,10 +71,8 @@ To change the timestamp format, you need to modify the `TIMESTAMP_FORMAT` consta
 
 After changing the format, recompile the project:
 ```bash
-# Uninstall
 sudo make uninstall
-
-# Install 
+ 
 sudo make install
 ```
 
