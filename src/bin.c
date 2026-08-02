@@ -15,6 +15,12 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
     error("File not found");
 
     found:
+   
+    // suppress warning for clang.
+    // warning: label followed by a declaration is incompatible with C standards before C23
+    if (__clang__) {
+	;
+    }
     char SRC_PATH[MAX_PATH_SIZE];
     char DEST_PATH[MAX_PATH_SIZE];
     
