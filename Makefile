@@ -1,4 +1,11 @@
+COMPILER_CHECK != which clang 2>/dev/null || echo ""
+
+.if !empty(COMPILER_CHECK)
+CC = clang
+.else
 CC = gcc
+.endif
+
 CFLAGS = -Wall -Wextra
 TARGET = /tmp/trash-rm
 SRC = src/main.c src/bin.c src/timestamp.c src/core.c
