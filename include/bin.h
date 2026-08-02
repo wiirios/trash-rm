@@ -8,7 +8,7 @@
 #include "core.h"
 #include "timestamp.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex.h>

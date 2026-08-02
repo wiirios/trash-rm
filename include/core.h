@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <sys/stat.h>
 #include <sys/types.h>
 #endif
