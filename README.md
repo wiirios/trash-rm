@@ -74,7 +74,10 @@ To change the timestamp format, you need to modify the `TIMESTAMP_FORMAT` consta
 
 After changing the format, recompile the project:
 ```bash
-sudo make uninstall 
+# Uninstall
+sudo make uninstall
+
+# Install 
 sudo make install
 ```
 
@@ -82,10 +85,8 @@ sudo make install
 
 Planned improvements and missing features:
 
-- [ ] Make it cross-platform with Windows.
-- [ ] Improve error handling.
+- [ ] Add support for clang
 - [ ] Add better logging.
-- [ ] Replace repetitive code with shared utility functions
 - [ ] Create a function to recover all files from the Trash bin.
 
 ## Project status
