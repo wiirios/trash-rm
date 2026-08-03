@@ -34,7 +34,7 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
     if (get_size(SRC_PATH, &size_file) != 0) error("Cannot get file size");
 
     char q;
-    if (check_if_file_exist(dest_, file_name) == 1) {
+    if (check_if_file_exist(dest_, file_name) == 1) {	
         while (1) {
             printf("File %s already exists, do you want to overwrite it?\nYes [Y]\nNo [N]\n", file_name);
             scanf("%c", &q);
@@ -44,12 +44,20 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
         
         if (q == 'N' || q == 'n') error("The file was not overwritten");
     }
+    
+    struct stat statbuf;
+	stat(SRC_PATH, &statbuf);
+	
+	if (getuid() != statbuf.st_uid) {
+		closedir(dest_);
+		closedir(src_);
+		error("Cannot move to trash a file created by another user");
+	}
 
     if ((rename(SRC_PATH, DEST_PATH)) == 0) printf("File %s move succesfully\n", file_name);
     else {
         error("Error moving file");
     }
-    
 
     if (flag) {
         char TRASH_FOLDER_ROOT[MAX_PATH_SIZE];
