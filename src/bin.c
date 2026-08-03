@@ -49,7 +49,7 @@ void move(const char *dest, const char *src, const char *file_name, unsigned cha
     else {
         error("Error moving file");
     }
-    ;
+    
 
     if (flag) {
         char TRASH_FOLDER_ROOT[MAX_PATH_SIZE];
