@@ -344,7 +344,7 @@ void recover_debug(const char *file_name) {
 
 }
 
-void set_insecure_path_debug(const char *path) {
+void add_insecure_path_debug(const char *path) {
 	char BUFFER_PATH[MAX_BIN_PATH_NAME];
     get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
     

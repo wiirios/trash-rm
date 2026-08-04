@@ -29,7 +29,7 @@
     void remove_log_entry_debug(const char *file_name);
     int list_debug();
     void recover_debug(const char *file_name);
-    void set_insecure_path_debug(const char *path);
+    void add_insecure_path_debug(const char *path);
     int get_insecure_path_debug(const char *path);
 #else
     void move_release(const char *src, const char *dest, FILE *file);
