@@ -67,6 +67,14 @@ void recover(const char *file_name);
 void remove_log_entry(const char *file_name);
 
 /**
+ *	@brief Add an insecure path where it's not possible to move any files located in that directory to the trash.
+ * 
+ * 	@param path Path to being marked as unsafe.
+ * 
+ */
+void add_insecure_path(const char *path);
+
+/**
  * @brief Show all items in trash bin.
  *
  * @return 1 if successful
@@ -90,5 +98,13 @@ int check_if_file_exist(DIR *dir, const char *file_name);
  * @return 0 on success, or a negative error code on failure.
  */
 int get_size(const char *file_name, size_t *out_size);
+
+/**
+ * @brief Get if the path is unsafe.
+ * 
+ * @param path Path unsafe or safe.
+ * @return 0 if safe, or 1 insecure.
+ */
+int get_insecure_path(const char *path);
 
 #endif
