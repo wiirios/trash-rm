@@ -12,7 +12,7 @@ The goal of `trash-rm` is not to replace the original project. Instead, it was c
 
 - gcc >= 16.1 OR clang >= 19.1.7
 - Tested on:
-  - Ubunto 20.04 LTS
+  - Ubuntu 24.04 LTS
   - FreeBSD 15.1-RELEASE
 
 ## Installation
