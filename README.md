@@ -8,6 +8,13 @@ This project is **inspired by** [trash-cli](https://github.com/andreafrancia/tra
 
 The goal of `trash-rm` is not to replace the original project. Instead, it was created as a learning exercise to study the core idea behind the tool and build a new implementation from scratch based on that understanding.
 
+## Requirements
+
+- gcc >= 16.1 OR clang >= 19.1.7
+- Tested on:
+  - Ubunto 20.04 LTS
+  - FreeBSD 15.1-RELEASE
+
 ## Installation
 ```
 git clone https://github.com/wiirios/trash-rm.git
@@ -80,7 +87,6 @@ sudo make install
 
 Planned improvements and missing features:
 
-- [ ] Add support for clang
 - [ ] Add better logging.
 - [ ] Create a function to recover all files from the Trash bin.
 
