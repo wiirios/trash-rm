@@ -1,6 +1,6 @@
 #include "bin.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <getopt.h>
 #endif
 
@@ -44,13 +44,14 @@ int main(int argc, char* argv[]) {
         {"clean", no_argument, 0, 'c'},
         {"remove", required_argument, 0, 'd'},
         {"recover", required_argument, 0, 'r'},
+        {"insecure", required_argument, 0, 'i'},
         {0, 0, 0, 0}
     };
 
     int opt, long_ind;
     opt = long_ind = 0;
 
-    opt = getopt_long(argc, argv, "m:le:cd:r:", long_options, &long_ind);
+    opt = getopt_long(argc, argv, "m:le:cd:r:i:", long_options, &long_ind);
 
     switch (opt)
     {
@@ -72,6 +73,9 @@ int main(int argc, char* argv[]) {
     case 'r':
         recover_debug(optarg);
         break;
+    case 'i':
+		set_insecure_path_debug(optarg);
+		break;
     default:
     error("Invalid argv, see available argv:\n"
         "move: Move a specific file by name: trash-rm move [file_name]\n"

@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra
 TARGET = trash-rm
 SRC = main.c bin.c core.c

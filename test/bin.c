@@ -11,6 +11,9 @@ void move_debug(const char *dest, const char *src, const char *file_name, unsign
     error("File not found");
 
     found:
+    if (__clang__) {
+	;
+	}
     char src_path[MAX_BIN_PATH_NAME];
     char dest_path[MAX_BIN_PATH_NAME];
 
@@ -19,6 +22,12 @@ void move_debug(const char *dest, const char *src, const char *file_name, unsign
 
     written = snprintf(dest_path, sizeof(dest_path), "%s%s%s", dest, dest[strlen(dest) - 1] == '/' ? "" : "/", file_name);
     if (written < 0 || (size_t)written >= sizeof(dest_path)) error("Path too long");
+    
+    if (get_insecure_path_debug(src)) {
+		closedir(src_);
+		closedir(dest_);
+		error("The path is set to insecure, please set this path to secure path to be able to move this file to bin");	
+	}
 
     size_t size_file;
     if (get_size(src_path, &size_file) != 0) error("Cannot get file size");
@@ -333,6 +342,54 @@ void recover_debug(const char *file_name) {
         error("File not found");
     }
 
+}
+
+void set_insecure_path_debug(const char *path) {
+	char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
+    
+    DIR *dir_ = opendir(BUFFER_PATH);
+    strcat(BUFFER_PATH, "insecure.txt");
+    
+	if (!check_if_file_exist(dir_, "insecure.txt")) {
+		FILE *f_ = fopen(BUFFER_PATH, "w");
+		
+		if (!f_) error("Cannot create insecure.txt");
+		
+		fclose(f_);
+	}
+
+	FILE *f__ = fopen(BUFFER_PATH, "a");
+
+	fprintf(f__, "%s\n", path);
+	fclose(f__);
+}
+
+int get_insecure_path_debug(const char *path) {
+	char BUFFER_PATH[MAX_BIN_PATH_NAME];
+    get_bin_path(BUFFER_PATH, sizeof(BUFFER_PATH));
+    
+    DIR *dir_ = opendir(BUFFER_PATH);
+    if (!check_if_file_exist(dir_, "insecure.txt")) return 0;
+	
+	strcat(BUFFER_PATH, "insecure.txt");
+	
+	FILE *f__ = fopen(BUFFER_PATH, "r");
+	
+	BUFFER_PATH[0] = '\0';
+	strcat(BUFFER_PATH, path);
+	strcat(BUFFER_PATH, "\n");
+	
+	char LINE[MAX_BUFFER_SIZE_DEBUG];
+	while (fgets(LINE, sizeof(LINE), f__) != NULL) {		
+		if (strcmp(LINE, BUFFER_PATH) == 0) {\
+			fclose(f__);
+			return 1;	
+		}
+	}
+	
+	fclose(f__);
+	return 0;	
 }
 
 #else

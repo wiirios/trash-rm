@@ -7,7 +7,7 @@
 
 #include "core.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #include <sys/stat.h>
 #include <dirent.h>
 #include <regex.h>
@@ -29,6 +29,8 @@
     void remove_log_entry_debug(const char *file_name);
     int list_debug();
     void recover_debug(const char *file_name);
+    void set_insecure_path_debug(const char *path);
+    int get_insecure_path_debug(const char *path);
 #else
     void move_release(const char *src, const char *dest, FILE *file);
 #endif
